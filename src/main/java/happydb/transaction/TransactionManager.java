@@ -75,7 +75,7 @@ public class TransactionManager {
     public synchronized TransactionId begin() throws IOException {
         long x = xid.getAndIncrement();
         ByteArray byteArray = ByteArray.allocate(16)
-                .writeLong(x)
+                .writeLong(x + 1)
                 .writeLong(activeSet.size() + 1);
 
         dbFile.write(0, byteArray);

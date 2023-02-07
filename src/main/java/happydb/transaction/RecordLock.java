@@ -164,4 +164,9 @@ public class RecordLock {
     public int hashCode() {
         return getRecordId().hashCode();
     }
+
+    public static void clear() {
+        recordLockPool.clear();
+        referenceMap.clear();
+    }
 }

@@ -282,7 +282,7 @@ public class LogicalPlan {
     public OpIterator getBestFilterOpIterator(Set<IndexType> indexTypes, Predicate predicate, TransactionId tid, String tableAlias) {
         if (predicate.getOp() == Predicate.Op.EQUALS && indexTypes.contains(IndexType.HASH)) {
             // using hash
-            throw new RuntimeException("Hash index haven`t implement");
+            return new HashSeqScan(tid, getTableName(tableAlias), tableAlias, predicate);
         } else if (indexTypes.contains(IndexType.BTREE)) {
             return new BTreeSeqScan(tid, getTableName(tableAlias), tableAlias, predicate);
         } else {

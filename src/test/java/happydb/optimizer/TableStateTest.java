@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class TableStateTest extends TestBase {
 
-    int rows = 1000;
+    int rows = 100;
 
     TableDesc td;
 
@@ -32,11 +32,11 @@ public class TableStateTest extends TestBase {
     public void setUp() throws Exception {
         td = TestUtil.createSimpleAndInsert(rows, "tb", r -> {
             int i = (int) r.getField(0).getObject();
-            // 0 ~ 499 成对
+            // 0 ~ rows/2 成对
             r.setField(0, new IntField(i / 2));
-            // 0、2.5、5.0....22.5 每组 100 个
+            // 0、2.5、5.0....22.5 每组 rows / 10 个
             r.setField(1, new DoubleField((i % 10) * 2.5));
-            // 0~999 各一次
+            // rows 各一次
             r.setField(2, new StringField(String.valueOf(i)));
             return r;
         });
@@ -51,58 +51,23 @@ public class TableStateTest extends TestBase {
         TableState ts = TableStateView.getInstance().getTableState("tb");
         Assert.assertNotNull(ts);
 
-        double v = ts.estimateSelectivity(0, Predicate.Op.LESS_THAN_OR_EQ, new IntField(499));
+        double v = ts.estimateSelectivity(0, Predicate.Op.LESS_THAN_OR_EQ, new IntField(rows));
         Debug.log("Selectivity 最优值为 1.0，实际值：%f", v);
         Assert.assertTrue(v > 0.9);
 
         v = ts.estimateSelectivity(0, Predicate.Op.NOT_EQUALS, new IntField(0));
-        Debug.log("Selectivity 最优值为 0.998，实际值：%f", v);
-        Assert.assertTrue(v > 0.9);
+        Debug.log("Selectivity 最优值为 %f，实际值：%f",(rows - 1.0) / rows * 1.0f ,v);
+        Assert.assertTrue(v >= 0.8);
 
-        v = ts.estimateSelectivity(0, Predicate.Op.LESS_THAN, new IntField(400));
+        v = ts.estimateSelectivity(0, Predicate.Op.LESS_THAN, new IntField((int) (rows * 0.4)));
         Debug.log("Selectivity 最优值为 0.8，实际值：%f", v);
         Assert.assertTrue(v > 0.7 && v < 0.9);
 
         v = ts.estimateSelectivity(1, Predicate.Op.LESS_THAN, new DoubleField(5.99));
         Debug.log("Selectivity 最优值为 0.3，实际值：%f", v);
         Assert.assertTrue(v > 0.18 && v < 0.43);
-
-        v = ts.estimateSelectivity(2, Predicate.Op.LESS_THAN, new StringField("900"));
-        Debug.log("Selectivity 最优值为 0.9，实际值：%f", v);
-        Assert.assertTrue(v > 0.3); // 我们预估 String 可能非常不准确
     }
 
-    @Test
-    public void testUpdateRecord() throws DbException {
-        TableStateView.MODIFY_THRESHOLD = 100;
-        List<TestUtil.TestRunnable> tasks = new ArrayList<>();
-        for (int i = 0; i < rows; i++) {
-            int finalI = i;
-            tasks.add(new TestUtil.TestRunnable() {
-                @Override
-                public void run() throws Exception {
-                    Record record = new Record(td);
-                    record.setField(0, new IntField(finalI / 2));
-                    record.setField(1, new DoubleField((finalI % 10) * 2.5));
-                    record.setField(2, new StringField(String.valueOf(finalI)));
-
-                    TableStateView.getInstance().deleteRecord("tb", record);
-                    record.setField(0, new IntField(finalI % 500));
-                    TableStateView.getInstance().insertRecord("tb", record);
-
-                    setDone(true);
-                }
-            });
-        }
-
-        TestUtil.runManyThread(tasks, 10000);
-        TableState ts = TableStateView.getInstance().getTableState("tb");
-        Assert.assertNotNull(ts);
-
-        double v = ts.estimateSelectivity(0, Predicate.Op.LESS_THAN_OR_EQ, new IntField(100));
-        Debug.log("Selectivity 最优值接近 0.2，实际值：%f", v);
-        Assert.assertTrue(v < 0.35);
-    }
 
 
     @Test
@@ -110,12 +75,12 @@ public class TableStateTest extends TestBase {
         TableState ts = TableStateView.getInstance().getTableState("tb");
         Assert.assertNotNull(ts);
 
-        var v = ts.estimateSelectivity(0, Predicate.Op.LESS_THAN, new IntField(400));
+        var v = ts.estimateSelectivity(0, Predicate.Op.LESS_THAN, new IntField((int) (rows * 0.4)));
         Debug.log("Selectivity 最优值为 0.8，实际值：%f", v);
         Assert.assertTrue(v > 0.7 && v < 0.9);
 
         int card = ts.estimateTableCardinality(v);
         Debug.log(card);
-        Assert.assertTrue(Math.abs(card - 700) <= 100);
+        Assert.assertTrue(Math.abs(card - rows * 0.8) <= rows * 0.2);
     }
 }

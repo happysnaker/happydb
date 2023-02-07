@@ -18,7 +18,7 @@ import org.junit.Test;
  * @Email happysnaker@foxmail.com
  */
 public class BTreeSeqScanTest extends TestBase {
-    int rows = 1000;
+    int rows = 25;
     TableDesc td;
 
     @Before

@@ -3,11 +3,12 @@ package happydb.common;
 import happydb.exception.DbException;
 import happydb.exception.DuplicateValueException;
 import happydb.exception.ParseException;
-import happydb.index.BTreeIndex;
-import happydb.index.BTreePageManager;
+import happydb.index.btree.BTreeIndex;
+import happydb.index.btree.BTreePageManager;
 import happydb.index.Index;
 import happydb.index.IndexType;
-import happydb.log.UndoLog;
+import happydb.index.hash.HashIndex;
+import happydb.index.hash.HashPageManager;
 import happydb.log.UndoLogId;
 import happydb.log.UndoLogPageManager;
 import happydb.storage.*;
@@ -173,6 +174,12 @@ public class Catalog {
         }
     }
 
+
+    /**
+     * 解析一行 catalog 记录，这将初始化堆文件、日志文件以及索引文件
+     * @param catalog
+     * @throws ParseException
+     */
     private void processCatalog(String catalog) throws ParseException {
         // table_name (field_name field_type index_type) (field_name field_type index_type)
         int firstSpaceIndex = catalog.indexOf(' ');
@@ -211,20 +218,16 @@ public class Catalog {
             String[] fieldAr = fieldNameAr.toArray(new String[0]);
             Type[] typeAr = fieldTypeAr.toArray(new Type[0]);
             int[] indexAr = indexTypeAr.stream().mapToInt(a -> a).toArray();
-            TableDesc tableDesc = new TableDesc(tableName,
-                    fieldAr,
-                    typeAr,
-                    indexAr);
+            TableDesc tableDesc = new TableDesc(tableName, fieldAr, typeAr, indexAr);
             HeapPageManager heapPageManager = new HeapPageManager(tableName, new DbFile(heapFile));
             UndoLogPageManager undoLogPageManager = new UndoLogPageManager(
                     tableName + UndoLogId.UNDO_LOG_TABLE_NAME_SUFFIX, new DbFile(undoFile));
             addTable(tableDesc, heapPageManager);
-            addTable(new TableDesc(tableName + UndoLogId.UNDO_LOG_TABLE_NAME_SUFFIX,
-                    fieldAr,
-                    typeAr,
+            addTable(new TableDesc(tableName + UndoLogId.UNDO_LOG_TABLE_NAME_SUFFIX, fieldAr, typeAr,
                     indexAr), undoLogPageManager);
 
 
+            // 初始化索引
             for (int i = 0; i < indexTypeAr.size(); i++) {
                 for (IndexType indexType : IndexType.intToIndexSet(indexTypeAr.get(i))) {
 
@@ -238,12 +241,16 @@ public class Catalog {
                     if (!indexFile.exists()) {
                         boolean b = indexFile.createNewFile();
                     }
-                    addTable(
-                            new TableDesc(indexTableName, fieldAr, typeAr, indexAr),
-                            new BTreePageManager(indexTableName, new DbFile(indexFile)));
 
                     if (indexType == IndexType.BTREE) {
+                        addTable(new TableDesc(indexTableName, fieldAr, typeAr, indexAr),
+                                new BTreePageManager(indexTableName, new DbFile(indexFile)));
                         Index index = new BTreeIndex(indexTableName);
+                        this.indexMap.put(new IndexKey(getTableNameFromIndexTableName(indexTableName), i, indexType), index);
+                    } else if (indexType == IndexType.HASH) {
+                        addTable(new TableDesc(indexTableName, fieldAr, typeAr, indexAr),
+                                new HashPageManager(indexTableName, new DbFile(indexFile)));
+                        Index index = new HashIndex(indexTableName);
                         this.indexMap.put(new IndexKey(getTableNameFromIndexTableName(indexTableName), i, indexType), index);
                     }
                 }
@@ -260,6 +267,19 @@ public class Catalog {
             it.getVal().close();
         }
     }
+
+    /**
+     * 根据索引的 tableName 获取索引字段的下标
+     *
+     * @param tableName 索引 tableName，形式为 tableName-fieldIndex-indexName
+     * @return 索引字段类型
+     */
+    public static int getFieldIndexFromIndexTableName(String tableName) {
+        String[] strings = tableName.split("-");
+        assert strings.length >= 3;
+        return Integer.parseInt(strings[1]);
+    }
+
 
 
     /**

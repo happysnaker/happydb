@@ -157,19 +157,25 @@ public class Insert extends AbstractOpIterator {
             Database.getLockTable().lock(tid, malloc);
 
             // step4
+            long s = System.currentTimeMillis();
             UndoLog undoLog = Database.getLogBuffer().createInsertUndoLog(tid, record);
             record.setLogPointer(undoLog.getId());
+            System.out.println(System.currentTimeMillis() - s);
 
             // step5
             HeapPage page = (HeapPage) Database.getBufferPool().getPage(tid, malloc.getPid(), Permissions.READ_ONLY);
             page.insertRecord(malloc, record);
 
             // step6
+
             assert record.getRecordId() != null;
             Database.getLogBuffer().createInsertRedoLog(tid, record);
 
+
             // step7
+            s = System.currentTimeMillis();
             doCreateIndex(child.getTableDesc(), record);
+            System.out.println(System.currentTimeMillis() - s);
 
             // step8
             TableStateView.getInstance().insertRecord(child.getTableDesc().getTableName(), record);

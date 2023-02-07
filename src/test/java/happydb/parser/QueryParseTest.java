@@ -127,7 +127,7 @@ public class QueryParseTest extends TestBase {
 
         System.out.println("\n\n\n");
 
-        int rows = 100000;
+        int rows = 100;
         System.out.println("Create " + rows + " rows in table..");
         long startTime = System.currentTimeMillis();
         TestUtil.createSimpleAndInsert(rows, "tb", null);

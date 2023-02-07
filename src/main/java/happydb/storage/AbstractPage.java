@@ -171,8 +171,6 @@ public abstract class AbstractPage implements Page {
         tryWriteLock(tid, 0);
     }
 
-
-
     @Override
     public PageId getPageId() {
         return pid;

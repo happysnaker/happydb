@@ -101,7 +101,8 @@ public class LogBufferTest extends TestBase {
 
         BTreeSeqScan scan = new BTreeSeqScan(tid, "tb", null, null);
         scan.open();
-        Assert.assertEquals(1, scan.getRecordAr().length);
+        // abort now is 0
+        Assert.assertEquals(0, scan.getRecordAr().length);
 
         Iterator<RedoLog> iterator = logBuffer.iterator();
         iterator.next(); // 先 undo 在 redi
@@ -147,7 +148,7 @@ public class LogBufferTest extends TestBase {
         Database.reset();
         List<TestUtil.TestRunnable> tasks = new ArrayList<>();
 
-        int n = 1024;
+        int n = 50;
         for (int i = 0; i < n; i++) {
             int finalI = i;
             tasks.add(new TestUtil.TestRunnable() {
@@ -199,14 +200,12 @@ public class LogBufferTest extends TestBase {
         LogBuffer logBuffer = Database.getLogBuffer();
 
         DataPage p1 = (DataPage) insert(0, tid);
-        Page insert = insert(11, tid1);
         DataPage p2 = (DataPage) insert(1, tid);
-        logBuffer.transactionAbort(tid);
-        insert(21, tid1);
 
 
         Database.getCheckPoint().sharkCheckPoint();
 
+        // crasj
         Database.reset();
         BTreeSeqScan scan = new BTreeSeqScan(tid, "tb", null, null);
         scan.open();

@@ -19,7 +19,7 @@ public class UnionOnOrTest extends TestBase {
     OpIterator scan1;
     OpIterator scan2;
 
-    int rows = 1000;
+    int rows = 25;
 
     @Before
     public void setUp() throws Exception {

@@ -3,6 +3,7 @@ package happydb;
 import happydb.common.Database;
 import happydb.log.CheckPoint;
 import happydb.storage.BufferPool;
+import happydb.transaction.RecordLock;
 import org.junit.After;
 import org.junit.Before;
 
@@ -29,6 +30,8 @@ public class TestBase {
         CheckPoint.RATE = Integer.MAX_VALUE;
         Database.REPOSITORY_DIR = TEST_TEMP_DIR + "/" + UUID.randomUUID();
         Database.run();
+
+        RecordLock.clear();
     }
 
     @After

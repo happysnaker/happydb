@@ -37,7 +37,7 @@ public class PageMallocTest extends TestBase {
 
     @Test
     public void testMalloc() {
-        int n = 20480;
+        int n = 2048;
         List<TestUtil.TestRunnable> tasks = new ArrayList<>();
         Set<RecordId> set = ConcurrentHashMap.newKeySet();
         for (int i = 0; i < n; i++) {
@@ -61,7 +61,7 @@ public class PageMallocTest extends TestBase {
 
     @Test
     public void testFree() {
-        int n = 20480;
+        int n = 2048;
         List<TestUtil.TestRunnable> tasks = new ArrayList<>();
         Set<RecordId> set = ConcurrentHashMap.newKeySet();
         for (int i = 0; i < n; i++) {
@@ -87,7 +87,7 @@ public class PageMallocTest extends TestBase {
 
     @Test(timeout = 1000L * 60 * 3)
     public void testInsertRecord() throws IOException, DbException {
-        int n = 20480;
+        int n = 50;
         List<TestUtil.TestRunnable> tasks = new ArrayList<>();
         Record[] records = new Record[n];
         for (int i = 0; i < n; i++) {

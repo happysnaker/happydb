@@ -21,7 +21,7 @@ public class OrderByTest extends TestBase {
     OpIterator scan;
 
     int cols = 2;
-    int rows = 1000;
+    int rows = 50;
 
     int[] numsAsc;
     int[] numsDesc;

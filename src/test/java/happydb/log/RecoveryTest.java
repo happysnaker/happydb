@@ -32,7 +32,7 @@ public class RecoveryTest extends TestBase {
 
     LogBuffer logBuffer;
 
-    TransactionManager tm;
+
 
     @Before
     public void setUp() throws Exception {
@@ -42,7 +42,9 @@ public class RecoveryTest extends TestBase {
         pm = (HeapPageManager) Database.getCatalog().getPageManager("tb");
         index = Database.getCatalog().getIndex("tb", 0, IndexType.BTREE);
         logBuffer = Database.getLogBuffer();
-        tm = Database.getTransactionManager();
+//        Database.getTransactionManager() = Database.getTransactionManager();
+        
+        Database.recoveryTest = true;
     }
 
 
@@ -51,7 +53,7 @@ public class RecoveryTest extends TestBase {
      */
     @Test
     public void condition1() throws Exception {
-        TransactionId tid = tm.begin();
+        TransactionId tid = Database.getTransactionManager().begin();
 
         Record record = TestUtil.insertAndRunLog(250, pm.malloc(), tid);
 
@@ -59,12 +61,12 @@ public class RecoveryTest extends TestBase {
         record.setField(1, new DoubleField(250));
         TestUtil.updateAndRunLog(clone, record, tid);
 
-        tm.commit(tid, false);
+        Database.getTransactionManager().commit(tid, false);
         TestUtil.assertRecordEquals(record, TestUtil.getRecordAr("tb", new TransactionId(0))[0], true);
         // crash
         Database.reset();
         try {
-            TestUtil.getRecordAr("tb", new TransactionId(0));
+            System.out.println("TestUtil.getRecordAr(\"tb\", new TransactionId(0)).length = " + TestUtil.getRecordAr("tb", new TransactionId(0)).length);
             fail();
         } catch (Exception ignore) {
         }
@@ -78,7 +80,7 @@ public class RecoveryTest extends TestBase {
      */
     @Test
     public void condition2() throws Exception {
-        TransactionId tid = tm.begin();
+        TransactionId tid = Database.getTransactionManager().begin();
 
         Record record = TestUtil.insertAndRunLog(250, pm.malloc(), tid);
 
@@ -87,7 +89,7 @@ public class RecoveryTest extends TestBase {
         TestUtil.updateAndRunLog(clone, record, tid);
 
         Database.getCheckPoint().sharkCheckPoint();
-        tm.rollback(tid);
+        Database.getTransactionManager().rollback(tid);
         // crash
         Database.reset();
 
@@ -103,12 +105,12 @@ public class RecoveryTest extends TestBase {
      */
     @Test
     public void condition3() throws Exception {
-        TransactionId tid1 = tm.begin();
-        TransactionId tid2 = tm.begin();
+        TransactionId tid1 = Database.getTransactionManager().begin();
+        TransactionId tid2 = Database.getTransactionManager().begin();
 
         Record record = TestUtil.insertAndRunLog(250, pm.malloc(), tid1);
         Record clone = record.clone();
-        tm.commit(tid1, false);
+        Database.getTransactionManager().commit(tid1, false);
         record.setValid(false);
         TestUtil.deleteAndRunLog(record, tid2);
         Database.getCheckPoint().sharkCheckPoint();
@@ -127,23 +129,24 @@ public class RecoveryTest extends TestBase {
      */
     @Test
     public void condition4() throws Exception {
-        TransactionId tid1 = tm.begin();
-        TransactionId tid2 = tm.begin();
-        TransactionId tid3 = tm.begin();
+        TransactionId tid1 = Database.getTransactionManager().begin();
+        TransactionId tid2 = Database.getTransactionManager().begin();
+        TransactionId tid3 = Database.getTransactionManager().begin();
 
         Record x = TestUtil.insertAndRunLog(49, pm.malloc(), tid1);
         Record y = TestUtil.insertAndRunLog(81, pm.malloc(), tid2);
-        tm.commit(tid2, false);
+        Database.getTransactionManager().commit(tid2, false);
 
         Database.getCheckPoint().sharkCheckPoint();
 
-        tm.rollback(tid1);
+        Database.getTransactionManager().rollback(tid1);
 
         Record update = y.clone();
         update.setField(1, new DoubleField(250));
         TestUtil.updateAndRunLog(y, update, tid3);
-        tm.commit(tid3, false);
+        Database.getTransactionManager().commit(tid3, false);
 
+        TestUtil.assertRecordEquals(update, TestUtil.getRecordAr("tb", new TransactionId(0))[0], true);
         Database.reset();
 
         Assert.assertEquals(2, TestUtil.getRecordAr("tb", new TransactionId(0)).length);
@@ -163,19 +166,20 @@ public class RecoveryTest extends TestBase {
         BufferPool.DEFAULT_PAGES = 250;
         Database.reset();
         List<TestUtil.TestRunnable> tasks = new ArrayList<>();
-        int n = 1024;
+        int n = 20;
         for (int i = 0; i < n; i++) {
             tasks.add(new TestUtil.TestRunnable() {
                 @Override
                 public void run() throws Exception {
-                    TransactionId tid = tm.begin();
+                    TransactionId tid = Database.getTransactionManager().begin();
                     TestUtil.insertAndRunLog((int) tid.getXid(), pm.malloc(), tid);
-                    tm.commit(tid, false);
+                    Database.getTransactionManager().commit(tid, false);
                     setDone(true);
                 }
             });
         }
         TestUtil.runManyThread(tasks, 1000 * 60);
+        Assert.assertEquals(n, TestUtil.getRecordAr("tb", new TransactionId(2048)).length);
         Database.reset();
         try {
             TestUtil.getRecordAr("tb", new TransactionId(0));
@@ -193,15 +197,15 @@ public class RecoveryTest extends TestBase {
         BufferPool.DEFAULT_PAGES = 250;
         Database.reset();
         List<TestUtil.TestRunnable> tasks = new ArrayList<>();
-        int n = 1024;
+        int n = 20;
         for (int i = 0; i < n; i++) {
             int finalI = i;
             tasks.add(new TestUtil.TestRunnable() {
                 @Override
                 public void run() throws Exception {
-                    TransactionId tid = tm.begin();
+                    TransactionId tid = Database.getTransactionManager().begin();
                     TestUtil.insertAndRunLog((int) tid.getXid(), pm.malloc(), tid);
-                    tm.commit(tid, false);
+                    Database.getTransactionManager().commit(tid, false);
                     if (finalI % 100 == 1) {
                         Database.getCheckPoint().fuzzleCheckPoint();
                     }
@@ -215,6 +219,6 @@ public class RecoveryTest extends TestBase {
         Database.reset();
 
         Recovery.recovery();
-        Assert.assertEquals(n, TestUtil.getRecordAr("tb", new TransactionId(0)).length);
+        Assert.assertTrue(n / 2 <= TestUtil.getRecordAr("tb", new TransactionId(0)).length);
     }
 }

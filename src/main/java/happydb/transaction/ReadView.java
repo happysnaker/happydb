@@ -36,14 +36,20 @@ public record ReadView(@Getter Set<TransactionId> trxList, @Getter TransactionId
         if (x == null) {
             throw new IllegalArgumentException("此记录的事务 ID 为空");
         }
-
+        // 当前事务修改，肯定可见
         if (x.equals(currentId)) {
             return true;
-        } else if (x.getXid() >= lowLimitId().getXid()) {
+        }
+        // x 在事务开始后分配，这对事务不可见
+        else if (x.getXid() >= lowLimitId().getXid()) {
             return false;
-        } else if (x.getXid() < upLimitId.getXid()) {
+        }
+        // x 比活跃事务更新，说明已提交，可见
+        else if (x.getXid() < upLimitId.getXid()) {
             return true;
-        } else {
+        }
+        // 否则看看 x 是否还未提交
+        else {
             return !trxList().contains(x);
         }
     }

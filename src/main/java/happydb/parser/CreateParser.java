@@ -130,7 +130,9 @@ public class CreateParser {
                     if (!usingBtree)
                         throw new ParseException("Primary key must using btree.");
                     pk = true;
-
+                    if (i != 0) {
+                        throw new ParseException("Primary key must be first column");
+                    }
                     assertIndexType(setAr[i], IndexType.BTREE_UNIQUE);
                     setAr[i].add(IndexType.PRIMARY_KEY);
                     setAr[i].add(IndexType.BTREE);

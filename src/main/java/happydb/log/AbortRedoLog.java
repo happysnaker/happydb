@@ -120,6 +120,7 @@ public class AbortRedoLog implements RedoLog{
 
     /**
      * 事务突然崩溃，undo 可能丢失，record 也可能丢失，但索引却建立，这是本项目的缺陷，因此需要扫描索引中存在但数据页中不存在的记录，并逻辑删除
+     * <p>由于主键在第一列，因此只需要根据主键 B+ 树索引修复即可</p>
      */
     static class FixRecordMissingScan extends BTreeSeqScan {
         public FixRecordMissingScan(TransactionId tid, String tableName, String tableAlias, Predicate predicate) {

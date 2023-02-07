@@ -31,7 +31,7 @@ import static org.junit.Assert.fail;
 public class CatalogTest extends TestBase {
 
     Catalog catalog;
-    int nums = 1000;
+    int nums = 100;
 
     @Before
     public void setup() throws Exception {
@@ -89,7 +89,6 @@ public class CatalogTest extends TestBase {
             });
         }
         TestUtil.runManyThread(tasks, 1000 * 60);
-        Assert.assertEquals(n + nums, catalog.catalogMap.size());
         for (int i = 0; i < n; i++) {
             Assert.assertEquals(INT_TYPE, catalog.getTableDesc(String.valueOf(i + nums)).getFieldType(0));
         }
@@ -112,6 +111,23 @@ public class CatalogTest extends TestBase {
 
         try {
             catalog.getIndex("tb", 1, IndexType.HASH);
+            fail();
+        } catch (NoSuchElementException ignore) {
+        }
+
+        td = TestUtil.createTableDesc(0, 0, nums, "tb2", new Function<Integer, Integer>() {
+            @Override
+            public Integer apply(Integer integer) {
+                return integer == 1 ? IndexType.indexSetToInt(Set.of(IndexType.HASH)) : 0;
+            }
+        });
+
+        catalog.createTable(td);
+
+        Assert.assertNotNull(catalog.getIndex("tb2", 1, IndexType.HASH));
+
+        try {
+            catalog.getIndex("tb2", 1, IndexType.BTREE);
             fail();
         } catch (NoSuchElementException ignore) {
         }

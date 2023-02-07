@@ -51,8 +51,9 @@ public class InsertParserTest extends TestBase {
         Project project = (Project) Parser.parser("INSERT INTO tb VALUES(1, 2.3, 'I Love You!')",
                 new TransactionId(0));
         Assert.assertNotNull(project);
-
+        long s = System.currentTimeMillis();
         project.open();
+        System.out.println("insert cost " + (System.currentTimeMillis() - s) + " ms");
         Debug.log(Arrays.toString(project.getRecordAr()));
 
         Record record = TestUtil.getRecordAr("tb", new TransactionId(0))[0];
@@ -182,7 +183,6 @@ public class InsertParserTest extends TestBase {
     @Test
     public void condition8() throws Exception {
         TransactionManager tm = Database.getTransactionManager();
-
         TransactionId A = tm.begin();
         TransactionId B = tm.begin();
         OpIterator parser = Parser.parser("INSERT INTO tb(z, x) VALUES('I Love You!', 1)", A);
@@ -204,7 +204,6 @@ public class InsertParserTest extends TestBase {
         } catch (Exception ignore) {
 
         }
-
         tm.commit(A, false);
 
         parser = Parser.parser("INSERT INTO tb(z, x) VALUES('I Love You!', 1)", B);

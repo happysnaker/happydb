@@ -29,7 +29,7 @@ public class JoinOptimizerTest extends TestBase {
         Database.reset();
 
         // a 表八千条数据，从 0 到 7999
-        var a = TestUtil.createSimpleAndInsert(8000, "a", null);
+        var a = TestUtil.createSimpleAndInsert(800, "a", null);
 
         // b 表 100 条数据，从 0 到 99
         var b = TestUtil.createSimpleAndInsert(100, "b", null);

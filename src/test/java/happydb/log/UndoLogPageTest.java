@@ -53,7 +53,8 @@ public class UndoLogPageTest extends TestBase {
 
 
         List<TestUtil.TestRunnable> tasks = new ArrayList<>();
-        for (int i = 0; i < 5096; i++) {
+        int n = 50;
+        for (int i = 0; i < n; i++) {
             int finalI = i;
             tasks.add(new TestUtil.TestRunnable() {
                 @Override
@@ -76,7 +77,7 @@ public class UndoLogPageTest extends TestBase {
         TestUtil.runManyThread(tasks, 1000 * 60);
         Database.getBufferPool().evictPage(0, true, false, true);
         Assert.assertTrue(Database.getBufferPool().pagePool.isEmpty());
-        for (int i = 0; i < 5096; i++) {
+        for (int i = 0; i < n; i++) {
             TransactionId tid = new TransactionId(i);
             Assert.assertTrue(superPage.getTransactionUndoLog(tid).isEmpty());
             superPage.markTransactionOn(tid, true);
@@ -183,7 +184,8 @@ public class UndoLogPageTest extends TestBase {
 
         Set<UndoLogId> set = ConcurrentHashMap.newKeySet();
         List<TestUtil.TestRunnable> tasks = new ArrayList<>();
-        for (int i = 0; i < 10240; i++) {
+        int n = 1024;
+        for (int i = 0; i < n; i++) {
             tasks.add(new TestUtil.TestRunnable() {
                 @Override
                 public void run() throws Exception {
@@ -194,10 +196,10 @@ public class UndoLogPageTest extends TestBase {
         }
         TestUtil.runManyThread(tasks, 1000 * 10);
 
-        Assert.assertEquals(10240, set.size());
+        Assert.assertEquals(n, set.size());
 
         set.clear();
-        for (int i = 0; i < 10240; i++) {
+        for (int i = 0; i < n; i++) {
             tasks.add(new TestUtil.TestRunnable() {
                 @Override
                 public void run() throws Exception {
@@ -208,6 +210,6 @@ public class UndoLogPageTest extends TestBase {
                 }
             });
         }
-        Assert.assertTrue(set.size() < 10240);
+        Assert.assertTrue(set.size() < n);
     }
 }

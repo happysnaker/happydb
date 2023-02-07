@@ -24,8 +24,8 @@ import static happydb.storage.Type.*;
  * @Email happysnaker@foxmail.com
  */
 public class AggregateTest extends TestBase {
-    int rows = 1000;
-    int group = 10;
+    int rows = 20;
+    int group = 10; // don`t modify
     TableDesc td;
 
     OpIterator scan;
@@ -78,11 +78,11 @@ public class AggregateTest extends TestBase {
 
         Record record = it.fetchNext();
         TestUtil.checkExhausted(it);
-        Assert.assertEquals(4500, record.getField(0).getObject());
-        Assert.assertEquals(4500 / 1000.0, record.getField(1).getObject());
-        Assert.assertEquals(999.0, (Double) record.getField(2).getObject(), 0f);
+        Assert.assertEquals(45 * rows / 10, record.getField(0).getObject());
+        Assert.assertEquals(4.5, record.getField(1).getObject());
+        Assert.assertEquals(rows - 1, (Double) record.getField(2).getObject(), 0f);
         Assert.assertEquals(0, (Double) record.getField(3).getObject(), 0f);
-        Assert.assertEquals(1000,  record.getField(4).getObject());
+        Assert.assertEquals(rows,  record.getField(4).getObject());
     }
 
 
@@ -103,11 +103,11 @@ public class AggregateTest extends TestBase {
             Debug.log(record.toString());
 
             Assert.assertEquals(i, record.getField(0).getObject());
-            Assert.assertEquals(i * 100, record.getField(1).getObject());
+            Assert.assertEquals(i * rows / 10, record.getField(1).getObject());
             Assert.assertEquals((double) i, (Double) record.getField(2).getObject(), 0f);
-            Assert.assertEquals(990.0 + i, (Double) record.getField(3).getObject(), 0f);
+            Assert.assertEquals(rows - 10 + i, (Double) record.getField(3).getObject(), 0f);
             Assert.assertEquals((double) i, (Double) record.getField(4).getObject(), 0f);
-            Assert.assertEquals(100,  record.getField(5).getObject());
+            Assert.assertEquals(rows / 10,  record.getField(5).getObject());
         }
     }
 }

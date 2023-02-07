@@ -29,6 +29,7 @@ import java.util.List;
  * @Email happysnaker@foxmail.com
  * @see UpdateOperateScan
  * @see happydb.execution.UpdateOperateScan.BTreeSeqScanDisableMvcc
+ * @see HashSeqScan
  */
 public class BTreeSeqScan extends AbstractOpIterator {
     @Getter

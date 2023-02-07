@@ -76,7 +76,8 @@ public class Database {
 
             getCatalog().loadCatalog();
 
-            Recovery.recovery();
+            if (!recoveryTest)
+                Recovery.recovery();
 
 //            演示没有激烈检查点刷盘时恢复例程的正确性，需要注释掉此行代码
             Runtime.getRuntime().addShutdownHook(new Thread(Database::shutDown));
@@ -215,8 +216,11 @@ public class Database {
     }
 
     public static void shutDown() {
-        getCheckPoint().sharkCheckPoint();
+        if (!recoveryTest)
+            getCheckPoint().sharkCheckPoint();
         open = false;
         getCatalog().close();
     }
+
+    public static boolean recoveryTest = false;
 }

@@ -125,14 +125,13 @@ public class UpdateOperateScan extends AbstractOpIterator {
     }
 
     /**
-     * 根据 Predicate 给出最优的执行计划
+     * 根据 Predicate 给出最优的执行计划，此方法返回的迭代流将使用当前读，禁用 MVCC
      * @return
      */
     public OpIterator getBestFilterOpIterator(
             LogicalPlan lp, Set<IndexType> indexTypes, Predicate predicate, TransactionId tid, String tableAlias) {
         if (predicate.getOp() == Predicate.Op.EQUALS && indexTypes.contains(IndexType.HASH)) {
-            // using hash
-            throw new RuntimeException("Hash index haven`t implement");
+            return new HashSeqScanDisableMvcc(tid, lp.getTableName(tableAlias), tableAlias, predicate);
         } else if (indexTypes.contains(IndexType.BTREE)) {
             return new BTreeSeqScanDisableMvcc(tid, lp.getTableName(tableAlias), tableAlias, predicate);
         } else {
@@ -230,8 +229,37 @@ public class UpdateOperateScan extends AbstractOpIterator {
         }
     }
 
-    // TODO 继承哈希索引，禁用 MVCC 功能
-    static class HashSeqScanDisableMvcc {
+    /**
+     * 继承哈希索引，禁用 MVCC 功能
+     * <P> TODO：此类与 BTreeSeqScanDisableMvcc 冗余，可考虑将 HashSeqScan 和 BtreeSeqScan 改成继承抽象类的方式，此类与 BTreeSeqScanDisableMvcc
+     * 合并，以组合的方式暴露功能</P>
+     */
+    static class HashSeqScanDisableMvcc extends HashSeqScan {
+        public HashSeqScanDisableMvcc(TransactionId tid, String tableName, String tableAlias, Predicate predicate) {
+            super(tid, tableName, tableAlias, predicate);
+        }
 
+        @Override
+        protected void openOpIterator() throws DbException {
+            super.openOpIterator();
+            super.readView = ReadView.createReadView(tid, ReadView.READ_COMMIT); // 当前读
+        }
+
+        @Override
+        protected Record fetchNext() throws DbException {
+            Record record = null;
+            while (iterator.hasNext()) {
+                RecordId next = iterator.next();
+                HeapPage page = (HeapPage) Database.getBufferPool().getPage(tid, next.getPid(), Permissions.READ_ONLY);
+                record = page.readRecord(next);
+                // 如果记录可见并且已经被删除，则过滤
+                if (super.readView.isVisible(record) && !record.isValid()) {
+                    continue;
+                }
+                // 其他情况下直接返回
+                return record;
+            }
+            return null;
+        }
     }
 }
