@@ -13,9 +13,11 @@
 ## 代价估计
 
 我们假定连接是使用循环嵌套法，假定外表 A 为循环外层，内表 B 为循环内层，官方的讲义中，给了我们计算连接代价的公式：
+
 $$
 Cost(A \ join \ B) = scanCost(A) + numTuples(A) \times scanCost(B)  + numTuples(A) \times numTuples(B)
 $$
+
 其中 `scanCost` 是扫描磁盘的 IO 代价，`numTuples` 是表中元组数目，表达式 $numTuples(A) \times numTuples(B)$ 表示元组过滤时 `Predict` 的 CPU 代价。
 
 上面这个公式告诉我们**不同的连接顺序会产生不同的代价**，例如如果扫描磁盘的代价总是相同的，那么外表元组越少、表越小，所产生的代价越低。
