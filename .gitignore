@@ -21,3 +21,12 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# IDE / build / local data
+.idea/
+target/
+repo/
+repo1/
+repo2/
+repo3/
+test01.mp4
