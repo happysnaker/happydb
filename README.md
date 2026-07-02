@@ -1,7 +1,8 @@
 # happydb
 
 [![Stars](https://img.shields.io/github/stars/happysnaker/happydb?style=social)](https://github.com/happysnaker/happydb/stargazers)
-[![Support](https://img.shields.io/badge/support-WeChat%20%26%20Alipay-7aa2ff)](https://happysnaker.github.io/support/)
+[![Project Page](https://img.shields.io/badge/project-page-7aa2ff)](https://happysnaker.github.io/happydb/)
+[![Support](https://img.shields.io/badge/support-WeChat%20%26%20Alipay-7aa2ff)](https://happysnaker.github.io/support/#from-happydb)
 [![Async Review](https://img.shields.io/badge/review-Quick%20read%20%2F%20async-9b87f5)](https://happysnaker.github.io/review/)
 
 `happydb` is a learning-oriented **relational database implementation in Java**
@@ -10,6 +11,9 @@ execution, query optimization, and basic replication ideas in one repository.
 
 It is not a production database. It is a systems project built to understand
 how the pieces of a small database fit together end to end.
+
+- Project page: [happysnaker.github.io/happydb](https://happysnaker.github.io/happydb/)
+- Good fit for: database internals study, systems-project portfolios, storage / transaction / optimizer interviews
 
 ## What this project covers
 
@@ -135,7 +139,7 @@ or implementation work:
 
 - give it a star
 - share it with other learners working on storage / database fundamentals
-- support ongoing maintenance via the [support page](https://happysnaker.github.io/support/)
+- support ongoing maintenance via the [support page](https://happysnaker.github.io/support/#from-happydb)
 - if this project saved you meaningful study time, a small direct tip such as
   `¥19.9` / `¥49.9` is already helpful
 - if you want compact async feedback on your GitHub profile, repo README, or
