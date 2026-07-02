@@ -674,7 +674,7 @@ Insert 不支持 NULL 值，如果未指定某个字段，字段将被设置为�
 
 ## CS 通信架构
 
-参考：[https://github.com/happysnaker/HRpc](hrpc)
+这里的 CS 通信部分主要是为了支撑数据库实验，重点仍然是事务、存储、索引、恢复与复制本身。
 
 
 

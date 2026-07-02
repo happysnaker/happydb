@@ -2,6 +2,7 @@
 
 [![Stars](https://img.shields.io/github/stars/happysnaker/happydb?style=social)](https://github.com/happysnaker/happydb/stargazers)
 [![Support](https://img.shields.io/badge/support-WeChat%20%26%20Alipay-7aa2ff)](https://happysnaker.github.io/support/)
+[![Async Review](https://img.shields.io/badge/review-Quick%20read%20%2F%20async-9b87f5)](https://happysnaker.github.io/review/)
 
 `happydb` is a learning-oriented **relational database implementation in Java**
 that explores storage engines, indexing, transactions, recovery, query
@@ -123,9 +124,9 @@ For deeper implementation notes, see:
 
 ## Related repos
 
-- [`HRpc`](https://github.com/happysnaker/HRpc) — Java / Netty RPC framework learning project
 - [`CSAPPLabsAndNotes`](https://github.com/happysnaker/CSAPPLabsAndNotes) — systems-learning notes and CS:APP walkthroughs
 - [`go-service-starter`](https://github.com/happysnaker/go-service-starter) — minimal production-minded Go HTTP service starter
+- [`system-design-checklist`](https://github.com/happysnaker/system-design-checklist) — practical checklist and answer sheet for architecture reviews and distributed-systems tradeoffs
 
 ## Support
 
