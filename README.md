@@ -140,6 +140,7 @@ or implementation work:
 - give it a star
 - share it with other learners working on storage / database fundamentals
 - support ongoing maintenance via the [support page](https://happysnaker.github.io/support/#from-happydb)
+- shortest support thread: [If happydb helped, here is the shortest support path](https://github.com/happysnaker/happydb/discussions/1)
 - if this project saved you meaningful study time, a small direct tip such as
   `¥19.9` / `¥49.9` is already helpful
 - if you want compact async feedback on your GitHub profile, repo README, or
