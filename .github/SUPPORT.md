@@ -3,6 +3,7 @@
 If **happydb** saved you time, helped your interview prep, or made implementation work easier, you can support continued maintenance here:
 
 - Support page: https://happysnaker.github.io/support/#from-happydb
+- Cross-project sponsor one-pager: https://github.com/happysnaker/happysnaker/releases/tag/v2026.07-sponsor-one-pager
 - If GitHub shows a **Sponsor** button on this repo, it routes to the same support page
 - Direct support: WeChat Pay / Alipay QR codes are listed on the support page
 - Best payment note: `happydb` or `database internals`
