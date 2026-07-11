@@ -13,6 +13,8 @@ It is not a production database. It is a systems project built to understand
 how the pieces of a small database fit together end to end.
 
 - Project page: [happysnaker.github.io/happydb](https://happysnaker.github.io/happydb/)
+- Proof before payment: [support/#proof-before-payment](https://happysnaker.github.io/support/#proof-before-payment)
+- 10-second support router: [support/#sponsor-router](https://happysnaker.github.io/support/#sponsor-router)
 - Good fit for: database internals study, systems-project portfolios, storage / transaction / optimizer interviews
 
 ## What this project covers
@@ -141,12 +143,17 @@ or implementation work:
 - share it with other learners working on storage / database fundamentals
 - support ongoing maintenance via the [support page](https://happysnaker.github.io/support/#from-happydb)
 - current cross-project sponsor brief: [Sponsor one-pager](https://github.com/happysnaker/happysnaker/releases/tag/v2026.07-sponsor-one-pager)
+- sponsor / paid-support intake replies: [share-kit intake replies](https://github.com/happysnaker/happysnaker/blob/master/docs/share-kit.md#sponsor--paid-support-intake-replies)
+- deploy-read sample before paying: [happysnaker.github.io/review/deploy-read-sample](https://happysnaker.github.io/review/deploy-read-sample/)
 - shortest support thread: [If happydb helped, here is the shortest support path](https://github.com/happysnaker/happydb/discussions/1)
 - if this project saved you meaningful study time, a small direct tip such as
   `¥19.9` / `¥49.9` is already helpful
 - if you want compact async feedback on your GitHub profile, repo README, or
   portfolio packaging, I also offer a lightweight `¥99` async review on the
   support page
+- public issue privacy guardrail: do not paste private logs, credentials, QR codes,
+  payment screenshots, internal URLs, or raw live integration output in public issues;
+  use the intake replies first
 
 ## License
 
