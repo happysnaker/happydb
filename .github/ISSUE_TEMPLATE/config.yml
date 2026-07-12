@@ -12,6 +12,9 @@ contact_links:
   - name: Sponsor prospect pipeline
     url: https://github.com/happysnaker/happysnaker/blob/master/docs/sponsor-prospect-pipeline.md
     about: Route database-internals / systems-project customers to the right proof, CTA, support note, and guardrail.
+  - name: Sponsor conversion scorecard
+    url: https://github.com/happysnaker/happysnaker/blob/master/docs/sponsor-conversion-scorecard.md
+    about: Classify support/review asks as Hot / Warm / Nurture / No-send before asking for payment or feedback.
   - name: Support / direct feedback
     url: https://happysnaker.github.io/support/#from-happydb
     about: Tip if happydb helped your database-internals study, or use the fastest repo-tied support path.

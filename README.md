@@ -150,7 +150,7 @@ or implementation work:
 - if this project saved you meaningful study time, a small direct tip such as
   `¥19.9` / `¥49.9` is already helpful
 - if you want compact async feedback on your GitHub profile, repo README, or
-  portfolio packaging, route the ask through the sponsor prospect pipeline first: https://github.com/happysnaker/happysnaker/blob/master/docs/sponsor-prospect-pipeline.md
+  portfolio packaging, route the ask through the sponsor prospect pipeline first: https://github.com/happysnaker/happysnaker/blob/master/docs/sponsor-prospect-pipeline.md; then classify Hot / Warm / Nurture / No-send with the sponsor conversion scorecard: https://github.com/happysnaker/happysnaker/blob/master/docs/sponsor-conversion-scorecard.md
 - if you want compact async feedback on your GitHub profile, repo README, or
   portfolio packaging, I also offer a lightweight `¥99` async review on the
   support page
