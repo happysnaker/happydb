@@ -7,6 +7,7 @@ If **happydb** saved you time, helped your interview prep, or made implementatio
 - 10-second support router: https://happysnaker.github.io/support/#sponsor-router
 - Cross-project sponsor one-pager: https://github.com/happysnaker/happysnaker/releases/tag/v2026.07-sponsor-one-pager
 - Sponsor / paid-support intake replies: https://github.com/happysnaker/happysnaker/blob/master/docs/share-kit.md#sponsor--paid-support-intake-replies
+- Sponsor prospect pipeline: https://github.com/happysnaker/happysnaker/blob/master/docs/sponsor-prospect-pipeline.md
 - Deploy-read sample before paying: https://happysnaker.github.io/review/deploy-read-sample/
 - If GitHub shows a **Sponsor** button on this repo, it routes to the same support page
 - Direct support: WeChat Pay / Alipay QR codes are listed on the support page
@@ -15,4 +16,4 @@ If **happydb** saved you time, helped your interview prep, or made implementatio
 - Async feedback option: `¥99` for one public GitHub profile / README / repo-positioning pass
 - Email for async review: happysnaker@foxmail.com
 
-Do not paste private logs, credentials, QR codes, payment screenshots, internal URLs, or raw live integration output in public issues. Keep paid-review intake on public database-internals repo / GitHub profile / README links unless you move details to private email.
+Use the sponsor prospect pipeline to choose the right proof, CTA, support note, and guardrail before outreach or payment. Do not paste private logs, credentials, QR codes, payment screenshots, internal URLs, or raw live integration output in public issues. Keep paid-review intake on public database-internals repo / GitHub profile / README links unless you move details to private email.

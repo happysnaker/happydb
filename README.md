@@ -15,6 +15,7 @@ how the pieces of a small database fit together end to end.
 - Project page: [happysnaker.github.io/happydb](https://happysnaker.github.io/happydb/)
 - Proof before payment: [support/#proof-before-payment](https://happysnaker.github.io/support/#proof-before-payment)
 - 10-second support router: [support/#sponsor-router](https://happysnaker.github.io/support/#sponsor-router)
+- Sponsor prospect pipeline: [docs/sponsor-prospect-pipeline.md](https://github.com/happysnaker/happysnaker/blob/master/docs/sponsor-prospect-pipeline.md) — route database-internals / systems-project customers to the right proof, CTA, support note, and guardrail before paying or asking for review
 - Good fit for: database internals study, systems-project portfolios, storage / transaction / optimizer interviews
 
 ## What this project covers
@@ -148,6 +149,8 @@ or implementation work:
 - shortest support thread: [If happydb helped, here is the shortest support path](https://github.com/happysnaker/happydb/discussions/1)
 - if this project saved you meaningful study time, a small direct tip such as
   `¥19.9` / `¥49.9` is already helpful
+- if you want compact async feedback on your GitHub profile, repo README, or
+  portfolio packaging, route the ask through the sponsor prospect pipeline first: https://github.com/happysnaker/happysnaker/blob/master/docs/sponsor-prospect-pipeline.md
 - if you want compact async feedback on your GitHub profile, repo README, or
   portfolio packaging, I also offer a lightweight `¥99` async review on the
   support page
