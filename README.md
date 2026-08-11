@@ -2,9 +2,6 @@
 
 [![Stars](https://img.shields.io/github/stars/happysnaker/happydb?style=social)](https://github.com/happysnaker/happydb/stargazers)
 [![Project Page](https://img.shields.io/badge/project-page-7aa2ff)](https://happysnaker.github.io/happydb/)
-[![Support](https://img.shields.io/badge/support-WeChat%20%26%20Alipay-7aa2ff)](https://happysnaker.github.io/support/#from-happydb)
-[![Async Review](https://img.shields.io/badge/review-Quick%20read%20%2F%20async-9b87f5)](https://happysnaker.github.io/review/)
-
 `happydb` is a learning-oriented **relational database implementation in Java**
 that explores storage engines, indexing, transactions, recovery, query
 execution, query optimization, and basic replication ideas in one repository.
@@ -13,9 +10,6 @@ It is not a production database. It is a systems project built to understand
 how the pieces of a small database fit together end to end.
 
 - Project page: [happysnaker.github.io/happydb](https://happysnaker.github.io/happydb/)
-- Proof before payment: [support/#proof-before-payment](https://happysnaker.github.io/support/#proof-before-payment)
-- 10-second support router: [support/#sponsor-router](https://happysnaker.github.io/support/#sponsor-router)
-- Sponsor prospect pipeline: [docs/sponsor-prospect-pipeline.md](https://github.com/happysnaker/happysnaker/blob/master/docs/sponsor-prospect-pipeline.md) — route database-internals / systems-project customers to the right proof, CTA, support note, and guardrail before paying or asking for review
 - Good fit for: database internals study, systems-project portfolios, storage / transaction / optimizer interviews
 
 ## What this project covers
@@ -142,18 +136,10 @@ or implementation work:
 
 - give it a star
 - share it with other learners working on storage / database fundamentals
-- support ongoing maintenance via the [support page](https://happysnaker.github.io/support/#from-happydb)
-- current cross-project sponsor brief: [Sponsor one-pager](https://github.com/happysnaker/happysnaker/releases/tag/v2026.07-sponsor-one-pager)
-- sponsor / paid-support intake replies: [share-kit intake replies](https://github.com/happysnaker/happysnaker/blob/master/docs/share-kit.md#sponsor--paid-support-intake-replies)
-- deploy-read sample before paying: [happysnaker.github.io/review/deploy-read-sample](https://happysnaker.github.io/review/deploy-read-sample/)
 - shortest support thread: [If happydb helped, here is the shortest support path](https://github.com/happysnaker/happydb/discussions/1)
 - if this project saved you meaningful study time, a small direct tip such as
-  `¥19.9` / `¥49.9` is already helpful
 - if you want compact async feedback on your GitHub profile, repo README, or
-  portfolio packaging, route the ask through the sponsor prospect pipeline first: https://github.com/happysnaker/happysnaker/blob/master/docs/sponsor-prospect-pipeline.md; then classify Hot / Warm / Nurture / No-send with the sponsor conversion scorecard: https://github.com/happysnaker/happysnaker/blob/master/docs/sponsor-conversion-scorecard.md
 - if you want compact async feedback on your GitHub profile, repo README, or
-  portfolio packaging, I also offer a lightweight `¥99` async review on the
-  support page
 - public issue privacy guardrail: do not paste private logs, credentials, QR codes,
   payment screenshots, internal URLs, or raw live integration output in public issues;
   use the intake replies first
